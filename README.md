@@ -5,3 +5,9 @@
 ```
 composer require laravel/breeze --dev
 ```
+
+## laravel-nestedset
+
+```
+composer require kalnoy/nestedset
+```
