@@ -12,7 +12,7 @@
                 class="absolute left-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="px-1 py-1">
                     <MenuItem>
-                    <a class="text-gray-700 block px-4 py-2 text-sm">
+                    <a href="#" @click.prevent="showCreateFolderModal" class="text-gray-700 block px-4 py-2 text-sm">
                         New Folder
                     </a>
                     </MenuItem>
@@ -32,11 +32,21 @@
             </MenuItems>
         </transition>
     </Menu>
+
+    <CreateFolderModal v-model:modalValue="createFolderModal" />
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import CreateFolderModal from '@/Components/app/CreateFolderModal.vue';
 
+const createFolderModal = ref(false);
+
+// Methods
+function showCreateFolderModal() {
+    createFolderModal.value = true;
+}
 </script>
