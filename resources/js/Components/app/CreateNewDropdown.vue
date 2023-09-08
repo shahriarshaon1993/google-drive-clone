@@ -12,22 +12,15 @@
                 class="absolute left-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div class="px-1 py-1">
                     <MenuItem>
-                    <a href="#" @click.prevent="showCreateFolderModal" class="text-gray-700 block px-4 py-2 text-sm">
-                        New Folder
-                    </a>
+                        <a href="#" @click.prevent="showCreateFolderModal" class="text-gray-700 block px-4 py-2 text-sm">
+                            New Folder
+                        </a>
                     </MenuItem>
                 </div>
                 <div class="px-1 py-1">
-                    <MenuItem>
-                    <a class="text-gray-700 block px-4 py-2 text-sm">
-                        Upload Files
-                    </a>
-                    </MenuItem>
-                    <MenuItem>
-                    <a class="text-gray-700 block px-4 py-2 text-sm">
-                        Upload Folder
-                    </a>
-                    </MenuItem>
+                    <FileUploadMenuItem />
+
+                    <FolderUploadMenuItem />
                 </div>
             </MenuItems>
         </transition>
@@ -42,6 +35,8 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import CreateFolderModal from '@/Components/app/CreateFolderModal.vue';
+import FileUploadMenuItem from '@/Components/app/FileUploadMenuItem.vue';
+import FolderUploadMenuItem from '@/Components/app/FolderUploadMenuItem.vue';
 
 const createFolderModal = ref(false);
 

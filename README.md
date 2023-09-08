@@ -23,3 +23,9 @@ npm install @headlessui/vue@latest
 ```
 npm install @heroicons/vue
 ```
+
+## Mitt Npm Package
+
+```
+npm install --save mitt
+```
