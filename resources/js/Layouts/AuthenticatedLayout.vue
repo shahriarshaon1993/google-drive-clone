@@ -39,6 +39,7 @@
     const page = usePage();
     const fileUploadForm = useForm({
         files: [],
+        relative_paths: [],
         parent_id: null
     });
 
@@ -57,7 +58,6 @@
     function handleDrop(ev) {
         dragOver.value = false;
         const files = ev.dataTransfer.files;
-        console.log(files);
 
         if (!files.length) {
             return;
@@ -67,8 +67,10 @@
     }
 
     function uploadFiles(files) {
+        console.log(files);
         fileUploadForm.parent_id = page.props.folder.id;
         fileUploadForm.files = files;
+        fileUploadForm.relative_paths = [...files].map(f => f.webkitRelativePath);
 
         fileUploadForm.post(route('file.store'));
     }

@@ -6,7 +6,6 @@ use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\StoreFolderRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -59,12 +58,61 @@ class FileController extends Controller
     public function store(StoreFileRequest $request)
     {
         $data = $request->validated();
+        $parent = $request->parent;
+        $user = $request->user();
+        $fileTree = $request->file_tree;
 
-        dd($data);
+        if (!$parent) {
+            $parent = $this->getRoot();
+        }
+
+        if (!empty($fileTree)) {
+            $this->saveFileTree($fileTree, $parent, $user);
+        } else {
+            foreach ($data['files'] as $file) {
+                $this->saveFile($parent, $user, $file);
+            }
+        }
     }
 
     private function getRoot()
     {
         return File::query()->whereIsRoot()->where('created_by', Auth::id())->firstOrFail();
+    }
+
+    public function saveFileTree($fileTree, $parent, $user)
+    {
+        foreach ($fileTree as $name => $file) {
+            if (is_array($file)) {
+                $folder = new File();
+                $folder->is_folder = 1;
+                $folder->name = $name;
+
+                $parent->appendNode($folder);
+                $this->saveFileTree($file, $folder, $user);
+            } else {
+                $this->saveFile($parent, $user, $file);
+            }
+        }
+    }
+
+    /**
+     * @param $parent
+     * @param $user
+     * @param $file
+     */
+    public function saveFile($parent, $user, $file)
+    {
+        /** @var \Illuminate\Http\UploadedFile $file */
+        $path = $file->store('/files/' . $user->id);
+
+        $model = new File();
+        $model->storage_path = $path;
+        $model->is_folder = false;
+        $model->name = $file->getClientOriginalName();
+        $model->mime = $file->getMimeType();
+        $model->size = $file->getSize();
+
+        $parent->appendNode($model);
     }
 }
