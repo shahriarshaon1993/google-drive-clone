@@ -18,13 +18,14 @@
                     <SearchForm />
                     <UserSettingsDropdown />
                 </div>
-
                 <div class="flex-1 flex flex-col overflow-hidden">
                     <slot />
                 </div>
             </template>
         </main>
     </div>
+
+    <FormProgress :form="fileUploadForm"/>
 </template>
 
 <script setup>
@@ -32,6 +33,7 @@
     import { useForm, usePage } from '@inertiajs/vue3';
     import {emitter, FILE_UPLOAD_STARTED} from '@/event-bus.js';
     import Navigation from '@/Components/app/Navigation.vue';
+    import FormProgress from '@/Components/app/FormProgress.vue';
     import SearchForm from '@/Components/app/SearchForm.vue';
     import UserSettingsDropdown from '@/Components/app/UserSettingsDropdown.vue';
 
@@ -67,7 +69,6 @@
     }
 
     function uploadFiles(files) {
-        console.log(files);
         fileUploadForm.parent_id = page.props.folder.id;
         fileUploadForm.files = files;
         fileUploadForm.relative_paths = [...files].map(f => f.webkitRelativePath);
