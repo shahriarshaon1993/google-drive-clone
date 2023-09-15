@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Kalnoy\Nestedset\NodeTrait;
 use App\Traits\HasCreatorAndUpdater;
@@ -66,5 +67,11 @@ class File extends Model
 
             $model->path = (!$model->parent->isRoot() ? $model->parent->path . '/' : '') . Str::slug($model->name);
         });
+
+//        static::deleted(function (File $model) {
+//            if (!$model->is_folder) {
+//                Storage::delete($model->storage_path);
+//            }
+//        });
     }
 }
