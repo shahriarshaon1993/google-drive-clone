@@ -25,6 +25,7 @@ import {usePage, useForm} from "@inertiajs/vue3";
 import ConfirmationDialog from "@/Components/ConfirmationDialog.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import {showErrorDialog} from "@/event-bus";
+import {showSuccessNotification} from "@/event-bus";
 
 // Uses
 const page = usePage();
@@ -77,7 +78,7 @@ function onDeleteConfirm() {
         onSuccess: () => {
             showDeleteDialog.value = false;
             emit('delete');
-            // Todo show success notification
+            showSuccessNotification('Selected files have been deleted');
         }
     });
 }
