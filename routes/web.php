@@ -38,6 +38,7 @@ Route::controller(FileController::class)->middleware(['auth', 'verified'])->grou
     Route::delete('/file', 'destroy')->name('file.delete');
     Route::post('/file/restore', 'restore')->name('file.restore');
     Route::delete('/file/delete-forever', 'deleteFroever')->name('file.deleteFroever');
+    Route::post('/file/add-to-favorites', 'addToFavourites')->name('file.addToFavourites');
     Route::get('/file/download', 'download')->name('file.download');
 });
 
