@@ -28,6 +28,7 @@
                     Only Favourites
                     <Checkbox @change="showOnlyFavourites" v-model:checked="onlyFavourites" class="mr-2" />
                 </lable>
+                <ShareFilesButton :all-selected="allSelected" :selected-ids="selectedIds"/>
                 <DownloadFilesButton :all="allSelected" :ids="selectedIds" class="mr-2"/>
                 <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete"/>
             </div>
@@ -112,6 +113,7 @@ import { router, usePage } from '@inertiajs/vue3';
 import {HomeIcon} from '@heroicons/vue/20/solid'
 import Checkbox from '@/Components/Checkbox.vue';
 import FileIcon from '@/Components/app/FileIcon.vue';
+import ShareFilesButton from '@/Components/app/ShareFilesButton.vue';
 import DeleteFilesButton from '@/Components/app/DeleteFilesButton.vue';
 import DownloadFilesButton from '@/Components/app/DownloadFilesButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';

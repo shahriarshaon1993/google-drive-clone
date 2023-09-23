@@ -32,6 +32,7 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import { nextTick, ref } from 'vue';
+import {showSuccessNotification} from "../../event-bus";
 
 const { modalValue } = defineProps({
     modalValue: Boolean
@@ -54,12 +55,14 @@ function onShow() {
 
 function createFolder() {
     form.parent_id = page.props.folder.id;
+    const name = form.name;
     form.post(route('folder.create'), {
         preserveScroll: true,
         onSuccess: () => {
-            closeModal()
-            form.reset()
+            closeModal();
             // Show success notification
+            showSuccessNotification(`The folder "${name}" was created`);
+            form.reset();
         },
         onError: () => folderNameInput.value.focus()
     });
