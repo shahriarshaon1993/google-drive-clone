@@ -11,18 +11,16 @@ export function httpGet(url) {
 
 export function httpPost(url, data) {
     const page = usePage();
-    console.log(page.props.csrf_token);
     return new Promise((resolve, reject) => {
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'X-CSRF-TOKEN': page.props.csrf_token
+                'X-CSRF-TOKEN': page.props._csrfToken
             },
             body: JSON.stringify(data)
         }).then(response => {
-            console.log(response);
             if (response.ok) {
                 resolve(response.json());
             } else {
@@ -30,10 +28,6 @@ export function httpPost(url, data) {
                     reject({response, error: data});
                 });
             }
-            const er = new Error();
-            er.response = response;
-
-            throw er;
         });
     });
 }

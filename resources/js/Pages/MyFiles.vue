@@ -24,7 +24,6 @@
             </ol>
 
             <div>
-                <AddToFavouritesButton :all-selected="allSelected" :selected-ids="selectedIds"/>
                 <DownloadFilesButton :all="allSelected" :ids="selectedIds" class="mr-2"/>
                 <DeleteFilesButton :delete-all="allSelected" :delete-ids="selectedIds" @delete="onDelete"/>
             </div>
@@ -110,7 +109,6 @@ import {HomeIcon} from '@heroicons/vue/20/solid'
 import Checkbox from '@/Components/Checkbox.vue';
 import FileIcon from '@/Components/app/FileIcon.vue';
 import DeleteFilesButton from '@/Components/app/DeleteFilesButton.vue';
-import AddToFavouritesButton from '@/Components/app/AddToFavouritesButton.vue';
 import DownloadFilesButton from '@/Components/app/DownloadFilesButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {httpGet, httpPost} from "@/Helper/http-helper";
@@ -195,10 +193,11 @@ function onDelete() {
 function addRemoveFavourite(file) {
     httpPost(route('file.addToFavourites'), {id: file.id})
         .then(() => {
+            file.is_favourite = !file.is_favourite;
             showSuccessNotification('Selected files have been added to favourites');
         })
         .catch(async (er) => {
-            console.log(er);
+            console.log(er.error.message);
         });
 }
 
