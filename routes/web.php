@@ -40,7 +40,11 @@ Route::controller(FileController::class)->middleware(['auth', 'verified'])->grou
     Route::delete('/file/delete-forever', 'deleteFroever')->name('file.deleteFroever');
     Route::post('/file/add-to-favorites', 'addToFavourites')->name('file.addToFavourites');
     Route::post('/file/share', 'share')->name('file.share');
+    Route::get('/shared-with-me', 'sharedWithMe')->name('file.sharedWithMe');
+    Route::get('/shared-by-me', 'sharedByMe')->name('file.sharedByMe');
     Route::get('/file/download', 'download')->name('file.download');
+    Route::get('/file/download-shared-with-me', 'downloadSharedWithMe')->name('file.downloadSharedWithMe');
+    Route::get('/file/download-shared-by-me', 'downloadSharedByMe')->name('file.downloadSharedByMe');
 });
 
 Route::middleware('auth')->group(function () {
