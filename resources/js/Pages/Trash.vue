@@ -1,101 +1,7 @@
-<template>
-    <AuthenticatedLayout>
-        <nav class="flex items-center justify-end pb-1 mb-3">
-            <div>
-                <DeleteForeverButton
-                    :all-selected="allSelected"
-                    :selected-ids="selectedIds"
-                    @delete="resetForm"
-                />
-                <RestoreFilesButton
-                    :all-selected="allSelected"
-                    :selected-ids="selectedIds"
-                    @restore="resetForm"
-                />
-            </div>
-        </nav>
-
-        <div class="flex-1 overflow-auto">
-            <table class="min-w-full">
-                <thead class="bg-gray-100 border-b">
-                    <tr>
-                        <th
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[30px] max-w-[30px] pr-0"
-                        >
-                            <Checkbox
-                                @change="onSelectAllChange"
-                                v-model:checked="allSelected"
-                            />
-                        </th>
-                        <th
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                            Name
-                        </th>
-                        <th
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
-                            Path
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr
-                        v-for="file of allFiles.data"
-                        :key="file.id"
-                        @click="($event) => toggleFileSelect(file)"
-                        class="border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer"
-                        :class="
-                            selected[file.id] || allSelected
-                                ? 'bg-blue-50'
-                                : 'bg-white'
-                        "
-                    >
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-[30px] max-w-[30px] pr-0"
-                        >
-                            <Checkbox
-                                @change="
-                                    ($event) => onSelectCheckboxChange(file)
-                                "
-                                v-model="selected[file.id]"
-                                :checked="selected[file.id] || allSelected"
-                            />
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center"
-                        >
-                            <FileIcon :file="file" />
-                            {{ file.name }}
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                        >
-                            {{ file.path }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div
-                v-if="!allFiles.data.length"
-                class="py-8 text-center text-sm text-gray-400"
-            >
-                There is no data in this folder
-            </div>
-
-            <div ref="loadMoreIntersect"></div>
-        </div>
-    </AuthenticatedLayout>
-</template>
-
 <script setup>
 // Imports
 import { ref, onMounted, onUpdated, computed } from "vue";
-import { Link } from "@inertiajs/vue3";
-import { router } from "@inertiajs/vue3";
-import { HomeIcon } from "@heroicons/vue/20/solid";
+import { Head } from "@inertiajs/vue3";
 import Checkbox from "@/Components/Checkbox.vue";
 import FileIcon from "@/Components/app/FileIcon.vue";
 import RestoreFilesButton from "@/Components/app/RestoreFilesButton.vue";
@@ -196,3 +102,97 @@ onMounted(() => {
     observer.observe(loadMoreIntersect.value);
 });
 </script>
+
+<template>
+    <Head title="Trash" />
+
+    <AuthenticatedLayout>
+        <nav class="flex items-center justify-end pb-1 mb-3">
+            <div>
+                <DeleteForeverButton
+                    :all-selected="allSelected"
+                    :selected-ids="selectedIds"
+                    @delete="resetForm"
+                />
+                <RestoreFilesButton
+                    :all-selected="allSelected"
+                    :selected-ids="selectedIds"
+                    @restore="resetForm"
+                />
+            </div>
+        </nav>
+
+        <div class="flex-1 overflow-auto">
+            <table class="min-w-full">
+                <thead class="bg-gray-100 border-b">
+                    <tr>
+                        <th
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left w-[30px] max-w-[30px] pr-0"
+                        >
+                            <Checkbox
+                                @change="onSelectAllChange"
+                                v-model:checked="allSelected"
+                            />
+                        </th>
+                        <th
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                            Name
+                        </th>
+                        <th
+                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                            Path
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr
+                        v-for="file of allFiles.data"
+                        :key="file.id"
+                        @click="($event) => toggleFileSelect(file)"
+                        class="border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer"
+                        :class="
+                            selected[file.id] || allSelected
+                                ? 'bg-blue-50'
+                                : 'bg-white'
+                        "
+                    >
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 w-[30px] max-w-[30px] pr-0"
+                        >
+                            <Checkbox
+                                @change="
+                                    ($event) => onSelectCheckboxChange(file)
+                                "
+                                v-model="selected[file.id]"
+                                :checked="selected[file.id] || allSelected"
+                            />
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center"
+                        >
+                            <FileIcon :file="file" />
+                            {{ file.name }}
+                        </td>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        >
+                            {{ file.path }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div
+                v-if="!allFiles.data.length"
+                class="py-8 text-center text-sm text-gray-400"
+            >
+                There is no data in this folder
+            </div>
+
+            <div ref="loadMoreIntersect"></div>
+        </div>
+    </AuthenticatedLayout>
+</template>

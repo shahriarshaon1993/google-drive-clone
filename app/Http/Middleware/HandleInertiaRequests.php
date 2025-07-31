@@ -34,6 +34,8 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
+                'canLogin' => Route::has('login'),
+                'canRegister' => Route::has('register'),
             ],
             'route_name' => Route::currentRouteName(),
             '_csrfToken' => csrf_token(),
